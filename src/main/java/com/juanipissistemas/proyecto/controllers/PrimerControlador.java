@@ -70,5 +70,9 @@ public class PrimerControlador {
         lista.add(anime);
         return lista;
     }
+    @GetMapping("/lista/{id}")
+    public Anime buscar(@PathVariable Long id){
+        return animeService.findById(id);
+    }
     
 }

@@ -18,5 +18,10 @@ public class AnimeService implements IAnimeService{
         
         return animeDAO.findAll();
     }
+    @Override
+    public Anime findById(Long id) {
+        // TODO Auto-generated method stub
+       return animeDAO.findById(id).orElse(null);
+    }
     
 }
