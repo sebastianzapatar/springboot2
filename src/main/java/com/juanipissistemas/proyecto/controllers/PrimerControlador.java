@@ -3,17 +3,24 @@ package com.juanipissistemas.proyecto.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.juanipissistemas.proyecto.models.Anime;
 import com.juanipissistemas.proyecto.models.TesisLorenzo;
+import com.juanipissistemas.proyecto.services.IAnimeService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/anime")
 public class PrimerControlador {
+    @Autowired
+    private IAnimeService animeService;
     static List<Anime> lista=new ArrayList<>();
     
     public static void llenarLista(){
@@ -54,8 +61,8 @@ public class PrimerControlador {
     }
     @GetMapping("/lista")
     public List<Anime> listaAnimes(){
-        llenarLista();
-        return lista;
+       
+        return animeService.findAll();
     }
     @PostMapping("/crearanime")
     public List<Anime> postMethodName(@RequestBody Anime anime) {

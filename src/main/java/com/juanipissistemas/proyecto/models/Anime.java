@@ -1,9 +1,27 @@
 package com.juanipissistemas.proyecto.models;
 
-public class Anime implements Comparable<Anime>{
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="animes")
+public class Anime implements Comparable<Anime>,Serializable{
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
     private String nombre;
-    private int capitulos;
-    private double califacion;
+    @Column
+    private Integer capitulos;
+    @Column
+    private Double califacion;
     public void setNombre (String n){
         this.nombre=n;
     }
