@@ -25,6 +25,9 @@ public class Anime implements Comparable<Anime>,Serializable{
     public void setNombre (String n){
         this.nombre=n;
     }
+    public Long getId(){
+        return id;
+    }
     public  String getNombre(){
         return nombre;
     }

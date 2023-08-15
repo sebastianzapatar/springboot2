@@ -23,5 +23,14 @@ public class AnimeService implements IAnimeService{
         // TODO Auto-generated method stub
        return animeDAO.findById(id).orElse(null);
     }
+    @Override
+    public void delete(Long id) {
+        
+        animeDAO.deleteById(id);
+    }
+    @Override
+    public Anime save(Anime anime) {
+        return animeDAO.save(anime);
+    }
     
 }
