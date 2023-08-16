@@ -47,6 +47,6 @@ public class AnimeController {
             actual.setCapitulos(anime.getCapitulos());
             actual.setCalificacion(anime.getCalificacion());
         }
-        return actual;
+        return lordEnzoService.save(actual);
     }
 }
