@@ -53,8 +53,19 @@ public class AnimeController {
     }
     @PostMapping("/anime")
     @ResponseStatus(HttpStatus.CREATED)
-    public Anime create(@RequestBody Anime anime){
-        return lordEnzoService.save(anime);
+    public ResponseEntity<?> create(@RequestBody Anime anime){
+        Map<String,String> response=new HashMap<>();
+        Anime lord=null;
+        try{
+            lord=lordEnzoService.save(anime);
+        }
+        catch(Exception e){
+            response.put("mensaje", e.getMessage());
+            return  new ResponseEntity<Map<String,String>>
+            (response,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Anime>(lord, 
+        HttpStatus.OK);
     }
     @PutMapping("/anime/{id}")
     @ResponseStatus(HttpStatus.CREATED)
