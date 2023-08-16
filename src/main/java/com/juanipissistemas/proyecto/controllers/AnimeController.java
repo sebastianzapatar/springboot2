@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.ArrayList;
 import com.juanipissistemas.proyecto.models.Anime;
 import com.juanipissistemas.proyecto.services.IAnimeService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/lordenzo")
@@ -53,15 +57,26 @@ public class AnimeController {
     }
     @PostMapping("/anime")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> create(@RequestBody Anime anime){
-        Map<String,String> response=new HashMap<>();
+    public ResponseEntity<?> create(@Valid @RequestBody 
+    Anime anime, BindingResult result){
+        Map<String,Object> response=new HashMap<>();
         Anime lord=null;
+        if(result.hasErrors()){
+            List<String> error=new ArrayList<>();
+            for(FieldError err: result.getFieldErrors()){
+                error.add("el campo"+err.getField()+" "+
+                err.getDefaultMessage());
+            }
+            response.put("Errors", error);
+            return new ResponseEntity<Map<String,Object>>
+            (response,HttpStatus.BAD_REQUEST);
+        }
         try{
             lord=lordEnzoService.save(anime);
         }
         catch(Exception e){
             response.put("mensaje", e.getMessage());
-            return  new ResponseEntity<Map<String,String>>
+            return  new ResponseEntity<Map<String,Object>>
             (response,HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Anime>(lord, 
